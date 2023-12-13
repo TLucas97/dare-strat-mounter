@@ -139,7 +139,7 @@
 		if (mode_selected === 'strat') {
 			squares += 5;
 		} else if (mode_selected === 'hero_pool') {
-			squares += 3;
+			squares += 5;
 		} else if (mode_selected === 'initial_picks') {
 			squares += 2;
 		}
@@ -176,7 +176,7 @@
 			class:text-gray-700={mode_selected === 'hero_pool'}
 			on:click={() => {
 				mode_selected = 'hero_pool';
-				squares = 3;
+				squares = 5;
 			}}>Hero pool</button
 		>
 		<button
@@ -192,7 +192,7 @@
 	<div
 		class="grid gap-4 p-4"
 		class:grid-cols-5={mode_selected === 'strat'}
-		class:grid-cols-3={mode_selected === 'hero_pool'}
+		class:grid-cols-5={mode_selected === 'hero_pool'}
 		class:grid-cols-2={mode_selected === 'initial_picks'}
 	>
 		{#each Array(squares) as _, i}

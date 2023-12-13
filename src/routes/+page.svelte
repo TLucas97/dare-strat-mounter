@@ -125,7 +125,9 @@
 		'void_spirit',
 		'snapfire',
 		'mars',
-		'dawnbreaker'
+		'dawnbreaker',
+		'muerta',
+		'primal_beast'
 	];
 
 	const heroes = heroNames.map((name) => ({

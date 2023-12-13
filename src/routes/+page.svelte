@@ -2,6 +2,7 @@
 	import Square from '$lib/square.svelte';
 
 	let squares = 5;
+	let mode_selected = 'strat';
 	let selectedHeroes = Array(squares).fill(null);
 
 	const heroNames = [
@@ -133,12 +134,20 @@
 	}));
 
 	function addSquares() {
-		squares += 5;
+		if (mode_selected === 'strat') {
+			squares += 5;
+		} else if (mode_selected === 'hero_pool') {
+			squares += 3;
+		} else if (mode_selected === 'initial_picks') {
+			squares += 2;
+		}
 		selectedHeroes = [...selectedHeroes, ...Array(5).fill(null)];
 	}
 </script>
 
-<div class="h-screen flex items-center justify-center bg-gray-700 text-white overflow-y-auto">
+<div
+	class="h-screen flex items-center justify-center bg-gray-700 text-white overflow-y-auto flex-col"
+>
 	<div class="absolute text-white top-0 left-0 m-2 text-xl font-bold">
 		<div class="flex gap-2 items-center">
 			<img
@@ -149,9 +158,47 @@
 			Dare+4Dares strat mounter
 		</div>
 	</div>
-	<div class="grid grid-cols-5 gap-4 p-4">
+	<div class="flex gap-4 items-center">
+		<button
+			class="p-2 border text-xl"
+			class:bg-white={mode_selected === 'strat'}
+			class:text-gray-700={mode_selected === 'strat'}
+			on:click={() => {
+				mode_selected = 'strat';
+				squares = 5;
+			}}>Strat</button
+		>
+		<button
+			class="p-2 border text-xl"
+			class:bg-white={mode_selected === 'hero_pool'}
+			class:text-gray-700={mode_selected === 'hero_pool'}
+			on:click={() => {
+				mode_selected = 'hero_pool';
+				squares = 3;
+			}}>Hero pool</button
+		>
+		<button
+			class="p-2 border text-xl"
+			class:bg-white={mode_selected === 'initial_picks'}
+			class:text-gray-700={mode_selected === 'initial_picks'}
+			on:click={() => {
+				mode_selected = 'initial_picks';
+				squares = 2;
+			}}>Initial picks</button
+		>
+	</div>
+	<div
+		class="grid gap-4 p-4"
+		class:grid-cols-5={mode_selected === 'strat'}
+		class:grid-cols-3={mode_selected === 'hero_pool'}
+		class:grid-cols-2={mode_selected === 'initial_picks'}
+	>
 		{#each Array(squares) as _, i}
-			<Square {heroes} bind:selected={selectedHeroes[i]} />
+			<Square
+				{heroes}
+				bind:selected={selectedHeroes[i]}
+				hero_pool={mode_selected === 'hero_pool'}
+			/>
 		{/each}
 	</div>
 	<button class="bg-red-700 text-white px-4 py-2 mt-4 text-2xl" on:click={addSquares}>+</button>

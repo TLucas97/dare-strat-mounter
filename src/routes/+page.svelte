@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { global_store } from '$lib/global';
+	import { fade } from 'svelte/transition';
 
 	const hero_names = [
 		'antimage',
@@ -163,7 +164,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-8">
+<div class="flex flex-col gap-8" in:fade={{ duration: 300 }}>
 	{#each $global_store.hero_fields as field, i}
 		<div class="flex justify-between gap-2 border-b relative">
 			<button

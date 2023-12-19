@@ -128,13 +128,11 @@
 
 	function increaseHeroFields() {
 		if (typeof window !== 'undefined') {
-			$global_store.hero_fields = [
-				...$global_store.hero_fields,
+			$global_store.hero_pool_fields = [
+				...$global_store.hero_pool_fields,
 				{
+					player: '',
 					hero_squares: [
-						{
-							name: ''
-						},
 						{
 							name: ''
 						},
@@ -150,31 +148,41 @@
 					]
 				}
 			];
-			localStorage.setItem('hero_fields', JSON.stringify($global_store.hero_fields));
+			localStorage.setItem('hero_pool_fields', JSON.stringify($global_store.hero_pool_fields));
 		}
 	}
 </script>
 
 <div class="flex flex-col gap-8">
-	{#each $global_store.hero_fields as field}
-		<div class="flex justify-between gap-2">
-			{#each field.hero_squares as hero}
-				<div class="flex flex-col">
-					<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>
-						<option value="" selected disabled>Select a hero</option>
-						{#each hero_names as heroName}
-							<option value={heroName}>{heroName}</option>
-						{/each}
-					</select>
-					<img
-						src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${
-							hero.name || 'antimage'
-						}.png`}
-						alt="dota2"
-						class="w-full h-[80px] object-cover"
-					/>
-				</div>
-			{/each}
+	{#each $global_store.hero_pool_fields as field}
+		<div class="flex flex-col gap-3">
+			<div>
+				<input
+					type="text"
+					class="bg-gray-700 p-2 focus:outline-none"
+					placeholder="Insert player name here"
+					bind:value={field.player}
+				/>
+			</div>
+			<div class="flex justify-between gap-2">
+				{#each field.hero_squares as hero}
+					<div class="flex flex-col">
+						<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>
+							<option value="" selected disabled>Select a hero</option>
+							{#each hero_names as heroName}
+								<option value={heroName}>{heroName}</option>
+							{/each}
+						</select>
+						<img
+							src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${
+								hero.name || 'antimage'
+							}.png`}
+							alt="dota2"
+							class="w-full h-[80px] object-cover"
+						/>
+					</div>
+				{/each}
+			</div>
 		</div>
 	{/each}
 </div>
@@ -183,6 +191,6 @@
 		class="bg-gray-500 px-3 py-2 font-bold text-sm flex items-center gap-2 hover:opacity-70"
 		on:click={increaseHeroFields}
 	>
-		MORE HEROES <span class="text-2xl">+</span>
+		MORE HERO POOLS <span class="text-2xl">+</span>
 	</button>
 </div>

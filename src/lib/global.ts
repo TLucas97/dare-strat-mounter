@@ -1,7 +1,7 @@
-<script lang="ts">
-	import { global_store } from '$lib/global';
+import { writable } from 'svelte/store';
 
-	const hero_names = [
+export const global_store = writable({
+	hero_names: [
 		'antimage',
 		'axe',
 		'bane',
@@ -124,65 +124,45 @@
 		'dawnbreaker',
 		'muerta',
 		'primal_beast'
-	];
-
-	function increaseHeroFields() {
-		if (typeof window !== 'undefined') {
-			$global_store.hero_fields = [
-				...$global_store.hero_fields,
+	],
+	hero_fields: [
+		{
+			hero_squares: [
 				{
-					hero_squares: [
-						{
-							name: ''
-						},
-						{
-							name: ''
-						},
-						{
-							name: ''
-						},
-						{
-							name: ''
-						},
-						{
-							name: ''
-						}
-					]
+					name: ''
+				},
+				{
+					name: ''
+				},
+				{
+					name: ''
+				},
+				{
+					name: ''
+				},
+				{
+					name: ''
 				}
-			];
-			localStorage.setItem('hero_fields', JSON.stringify($global_store.hero_fields));
+			]
 		}
-	}
-</script>
-
-<div class="flex flex-col gap-8">
-	{#each $global_store.hero_fields as field}
-		<div class="flex justify-between gap-2">
-			{#each field.hero_squares as hero}
-				<div class="flex flex-col">
-					<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>
-						<option value="" selected disabled>Select a hero</option>
-						{#each hero_names as heroName}
-							<option value={heroName}>{heroName}</option>
-						{/each}
-					</select>
-					<img
-						src={`https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/${
-							hero.name || 'antimage'
-						}.png`}
-						alt="dota2"
-						class="w-full h-[80px] object-cover"
-					/>
-				</div>
-			{/each}
-		</div>
-	{/each}
-</div>
-<div class="flex items-center justify-center mt-5">
-	<button
-		class="bg-gray-500 px-3 py-2 font-bold text-sm flex items-center gap-2 hover:opacity-70"
-		on:click={increaseHeroFields}
-	>
-		MORE HEROES <span class="text-2xl">+</span>
-	</button>
-</div>
+	],
+	hero_pool_fields: [
+		{
+			player: '',
+			hero_squares: [
+				{
+					name: ''
+				},
+				{
+					name: ''
+				},
+				{
+					name: ''
+				},
+				{
+					name: ''
+				}
+			]
+		}
+	],
+});

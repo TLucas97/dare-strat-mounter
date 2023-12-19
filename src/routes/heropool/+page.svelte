@@ -151,10 +151,34 @@
 			localStorage.setItem('hero_pool_fields', JSON.stringify($global_store.hero_pool_fields));
 		}
 	}
+
+	function deleteSingleField(index: number) {
+		if (typeof window !== 'undefined') {
+			const updated_fields = $global_store.hero_pool_fields.filter((_, i) => i !== index);
+			$global_store.hero_pool_fields = updated_fields;
+			localStorage.setItem('hero_pool_fields', JSON.stringify($global_store.hero_pool_fields));
+		}
+	}
+
+	function updatePlayerNameOnInput(event: any, index: number) {
+		if (typeof window !== 'undefined') {
+			const updated_fields = $global_store.hero_pool_fields.map((field, i) => {
+				if (i === index) {
+					return {
+						...field,
+						player: event.target.value
+					};
+				}
+				return field;
+			});
+			$global_store.hero_pool_fields = updated_fields;
+			localStorage.setItem('hero_pool_fields', JSON.stringify($global_store.hero_pool_fields));
+		}
+	}
 </script>
 
 <div class="flex flex-col gap-8">
-	{#each $global_store.hero_pool_fields as field}
+	{#each $global_store.hero_pool_fields as field, i}
 		<div class="flex flex-col gap-3">
 			<div>
 				<input
@@ -162,9 +186,14 @@
 					class="bg-gray-700 p-2 focus:outline-none"
 					placeholder="Insert player name here"
 					bind:value={field.player}
+					on:input={(event) => updatePlayerNameOnInput(event, i)}
 				/>
 			</div>
-			<div class="flex justify-between gap-2">
+			<div class="flex justify-between gap-2 border-b relative">
+				<button
+					class="absolute bottom-0 right-0 p-1 bg-red-700 text-[0.5rem] hover:text-[0.7rem] transition-all"
+					on:click={() => deleteSingleField(i)}>Remove</button
+				>
 				{#each field.hero_squares as hero}
 					<div class="flex flex-col">
 						<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>

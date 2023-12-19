@@ -153,11 +153,23 @@
 			localStorage.setItem('hero_fields', JSON.stringify($global_store.hero_fields));
 		}
 	}
+
+	function deleteSingleField(index: number) {
+		if (typeof window !== 'undefined') {
+			const updated_fields = $global_store.hero_fields.filter((_, i) => i !== index);
+			$global_store.hero_fields = updated_fields;
+			localStorage.setItem('hero_fields', JSON.stringify($global_store.hero_fields));
+		}
+	}
 </script>
 
 <div class="flex flex-col gap-8">
-	{#each $global_store.hero_fields as field}
-		<div class="flex justify-between gap-2">
+	{#each $global_store.hero_fields as field, i}
+		<div class="flex justify-between gap-2 border-b relative">
+			<button
+				class="absolute bottom-0 right-0 p-1 bg-red-700 text-[0.5rem] hover:text-[0.7rem] transition-all"
+				on:click={() => deleteSingleField(i)}>Remove</button
+			>
 			{#each field.hero_squares as hero}
 				<div class="flex flex-col">
 					<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>

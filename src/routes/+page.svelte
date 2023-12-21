@@ -162,6 +162,17 @@
 			localStorage.setItem('hero_fields', JSON.stringify($global_store.hero_fields));
 		}
 	}
+
+	function capitalizeFirstLetter(str: string) {
+		return str
+			.split(' ')
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
+	}
+
+	function replaceUnderline(heroName: string) {
+		return capitalizeFirstLetter(heroName.replace(/_/g, ' '));
+	}
 </script>
 
 <div class="flex flex-col gap-8" in:fade={{ duration: 300 }}>
@@ -175,8 +186,8 @@
 				<div class="flex flex-col">
 					<select class={`text-black p-2 bg-cover`} bind:value={hero.name}>
 						<option value="" selected disabled>Select a hero</option>
-						{#each hero_names as heroName}
-							<option value={heroName}>{heroName}</option>
+						{#each hero_names.sort() as heroName}
+							<option value={heroName}>{replaceUnderline(heroName)}</option>
 						{/each}
 					</select>
 					<img
